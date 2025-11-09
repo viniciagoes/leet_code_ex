@@ -1,0 +1,20 @@
+-- This query works, but in problem 196 you need to delete from base table
+
+-- SELECT
+--     p.id,
+--     p.email
+-- FROM (
+--     SELECT
+--         id,
+--         email,
+--         ROW_NUMBER() OVER(PARTITION BY email ORDER BY id ASC) AS rn
+--     FROM Person
+-- ) p
+-- WHERE p.rn = 1
+-- ORDER BY p.id ASC
+
+DELETE FROM Person p
+USING Person d
+WHERE
+    p.email = d.email
+    AND p.id > d.id;
