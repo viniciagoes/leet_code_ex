@@ -1,0 +1,16 @@
+WITH Order_nums AS (
+    SELECT
+        customer_number,
+        count(*) AS order_num
+    FROM Orders
+    GROUP BY customer_number
+)
+
+SELECT
+    customer_number
+FROM Order_nums
+WHERE order_num = (
+    SELECT 
+        MAX(order_num)
+    FROM Order_nums
+)
