@@ -1,0 +1,10 @@
+SELECT
+    MAX(num)
+FROM (
+    SELECT
+        num,
+        COUNT(num) AS c
+    FROM MyNumbers
+    GROUP BY num
+) count_num
+WHERE c = 1
