@@ -1,0 +1,11 @@
+WITH setup AS (
+    SELECT 
+        actor_id,
+        director_id,
+        COUNT(*) AS c
+    FROM ActorDirector
+    GROUP BY 
+        actor_id,
+        director_id
+)
+SELECT actor_id, director_id FROM setup WHERE c >= 3;
