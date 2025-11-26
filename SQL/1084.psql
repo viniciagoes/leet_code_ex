@@ -1,0 +1,14 @@
+SELECT DISTINCT
+    p.product_id,
+    p.product_name
+FROM Product p
+LEFT JOIN Sales s
+    ON p.product_id = s.product_id
+WHERE s.sale_date IS NOT NULL
+AND p.product_id NOT IN (
+    SELECT DISTINCT
+        product_id
+    FROM Sales
+    WHERE sale_date < '2019-01-01' 
+    OR sale_date > '2019-03-31'
+)
