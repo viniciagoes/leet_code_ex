@@ -1,0 +1,58 @@
+-- Write your PostgreSQL query statement below
+WITH distinct_ids AS (
+    SELECT DISTINCT
+        id
+    FROM Department
+)
+
+SELECT
+    dep.id
+    j.revenue AS Jan_Revenue
+    f.revenue AS Feb_Revenue
+    m.revenue AS Mar_Revenue
+    a.revenue AS Apr_Revenue
+    y.revenue AS May_Revenue
+    e.revenue AS Jun_Revenue
+    l.revenue AS Jul_Revenue
+    u.revenue AS Aug_Revenue
+    s.revenue AS Sep_Revenue
+    o.revenue AS Oct_Revenue
+    n.revenue AS Nov_Revenue
+    d.revenue AS Dec_Revenue
+FROM distinct_ids dep
+LEFT JOIN Departments j
+    ON j.id = dep.id
+    AND j.month = 'Jan'
+LEFT JOIN Departments f
+    ON f.id = dep.id
+    AND f.month = 'Feb'
+LEFT JOIN Departments m
+    ON m.id = dep.id
+    AND m.month = 'Mar'
+LEFT JOIN Departments a
+    ON a.id = dep.id
+    AND a.month = 'Apr'
+LEFT JOIN Departments y
+    ON y.id = dep.id
+    AND y.month = 'May'
+LEFT JOIN Departments e
+    ON e.id = dep.id
+    AND e.month = 'Jun'
+LEFT JOIN Departments l
+    ON l.id = dep.id
+    AND l.month = 'Jul'
+LEFT JOIN Departments u
+    ON u.id = dep.id
+    AND u.month = 'Aug'
+LEFT JOIN Departments s
+    ON s.id = dep.id
+    AND s.month = 'Sep'
+LEFT JOIN Departments o
+    ON o.id = dep.id
+    AND o.month = 'Oct'
+LEFT JOIN Departments n
+    ON n.id = dep.id
+    AND n.month = 'Nov'
+LEFT JOIN Departments d
+    ON d.id = dep.id
+    AND d.month = 'Dec'
