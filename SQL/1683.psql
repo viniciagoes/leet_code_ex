@@ -1,0 +1,5 @@
+SELECT
+    tweet_id
+FROM Tweets
+GROUP BY tweet_id, content
+HAVING LENGTH(content) > 15
