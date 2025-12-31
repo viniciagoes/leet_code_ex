@@ -1,0 +1,13 @@
+SELECT
+    event_day AS day,
+    emp_id,
+    SUM(duration) AS total_time
+FROM (
+    SELECT
+        *,
+        out_time - in_time AS duration
+    FROM Employees
+) AS e
+GROUP BY
+    event_day,
+    emp_id
