@@ -1,0 +1,13 @@
+SELECT
+    e.employee_id,
+    e.department_id
+FROM Employee e
+LEFT JOIN (
+    SELECT
+        employee_id,
+        COUNT(*) AS changes
+    FROM Employee
+    GROUP BY employee_id
+) d
+    ON e.employee_id = d.employee_id
+WHERE (d.changes = 1 AND e.primary_flag = 'N') OR (d.changes > 1 AND e.primary_flag = 'Y')
