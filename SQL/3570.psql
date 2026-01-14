@@ -1,0 +1,25 @@
+SELECT
+    l.book_id,
+    l.title,
+    l.author,
+    l.genre,
+    l.publication_year,
+    l.total_copies AS current_borrowers
+FROM library_books l
+LEFT JOIN (SELECT
+        book_id,
+        COUNT(*) AS borrowed
+    FROM borrowing_records
+    WHERE return_date IS NULL
+    GROUP BY book_id) b
+    ON l.book_id = b.book_id
+GROUP BY
+    l.book_id,
+    l.title,
+    l.author,
+    l.genre,
+    l.publication_year,
+    l.total_copies,
+    b.borrowed
+HAVING b.borrowed - l.total_copies = 0
+ORDER BY current_borrowers DESC, title ASC
