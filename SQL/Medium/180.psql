@@ -1,0 +1,22 @@
+SELECT DISTINCT
+    l.num AS ConsecutiveNums
+FROM (
+    SELECT
+        id,
+        num,
+        LEAD(num, 1) OVER (
+            ORDER BY id
+        ) AS next_num,
+        LEAD(id, 1) OVER (
+            ORDER BY id
+        ) AS next_id,
+        LAG(num, 1) OVER (
+            ORDER BY id
+        ) AS last_num,
+        LAG(id, 1) OVER (
+            ORDER BY id
+        ) AS last_id
+    FROM Logs
+) l
+WHERE l.num = l.last_num AND l.num = l.next_num
+AND l.id = l.last_id + 1 AND l.id = l.next_id - 1
