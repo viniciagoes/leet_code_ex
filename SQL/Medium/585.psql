@@ -1,0 +1,21 @@
+SELECT
+    ROUND(SUM(tiv_2016)::NUMERIC, 2) AS tiv_2016
+FROM Insurance
+LEFT JOIN (
+    SELECT
+        tiv_2015 AS non_unique
+    FROM Insurance
+    GROUP BY tiv_2015
+    HAVING COUNT(*) > 1
+) crit_1
+    ON tiv_2015 = non_unique
+
+LEFT JOIN (
+    SELECT
+        CONCAT(lat, '0', lon) AS geo
+    FROM Insurance
+    GROUP BY geo
+    HAVING COUNT(*) = 1
+) crit_2
+    ON CONCAT(lat, '0', lon) = geo
+WHERE non_unique IS NOT NULL AND geo IS NOT NULL
