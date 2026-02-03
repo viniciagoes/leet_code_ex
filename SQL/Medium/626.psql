@@ -1,0 +1,20 @@
+SELECT
+    s.id,
+    CASE
+        WHEN MOD(s.id, 2) = 0 THEN (
+            SELECT
+                Seat.student
+            FROM Seat
+            WHERE Seat.id = s.id - 1
+        )
+        WHEN MOD(s.id, 2) = 1 THEN COALESCE(
+            (
+                SELECT
+                    Seat.student
+                FROM Seat
+                WHERE Seat.id = s.id + 1
+            ),
+            s.student
+        )
+    END AS student
+FROM Seat s
