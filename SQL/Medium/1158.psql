@@ -1,0 +1,14 @@
+SELECT
+    user_id AS buyer_id,
+    join_date,
+    COALESCE(orders_in_2019, 0) AS orders_in_2019
+FROM Users
+LEFT JOIN (
+    SELECT
+        buyer_id,
+        COUNT(order_id) AS orders_in_2019
+    FROM Orders
+    WHERE EXTRACT(YEAR FROM order_date) = 2019
+    GROUP BY buyer_id
+) orders
+    ON Users.user_id = orders.buyer_id
