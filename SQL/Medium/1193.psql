@@ -1,0 +1,32 @@
+WITH approved AS (
+    SELECT
+        TO_CHAR(trans_date, 'YYYY-MM') AS month,
+        country,
+        COUNT(*) AS approved_count,
+        SUM(amount) AS approved_total_amount
+    FROM Transactions
+    WHERE state = 'approved'
+    GROUP BY TO_CHAR(trans_date, 'YYYY-MM'), country
+),
+
+all_transactions AS (
+    SELECT
+        TO_CHAR(trans_date, 'YYYY-MM') AS month,
+        country,
+        COUNT(*) AS trans_count,
+        SUM(amount) AS trans_total_amount
+    FROM Transactions
+    GROUP BY TO_CHAR(trans_date, 'YYYY-MM'), country
+)
+
+SELECT
+    all_transactions.month,
+    all_transactions.country,
+    all_transactions.trans_count,
+    COALESCE(approved.approved_count, 0) AS approved_count,
+    all_transactions.trans_total_amount,
+    COALESCE(approved.approved_total_amount, 0) AS approved_total_amount
+FROM all_transactions
+LEFT JOIN approved
+    ON all_transactions.month = approved.month
+    AND COALESCE(all_transactions.country, 'NULL') = COALESCE(approved.country, 'NULL')
