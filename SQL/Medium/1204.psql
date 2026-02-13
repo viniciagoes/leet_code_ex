@@ -1,0 +1,11 @@
+SELECT
+    q.person_name
+FROM (
+    SELECT
+        person_name,
+        SUM(Weight) OVER (ORDER BY Turn) AS Total
+    FROM Queue
+) q
+WHERE total <= 1000
+ORDER BY total DESC
+LIMIT 1
